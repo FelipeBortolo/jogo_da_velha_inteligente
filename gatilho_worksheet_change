@@ -1,0 +1,128 @@
+Private Sub Worksheet_Change(ByVal Target As Range)
+    'Gatilho para executar ações na planilha sempre que o conjunto de células relacionadas ao tabuleiro for alterada
+    
+    Dim KeyCells0, KeyCells1, KeyCells2, KeyCells3, KeyCells4, KeyCells5, KeyCells6, KeyCells7, KeyCells8, KeyCells9 As Range
+    
+    Set KeyCells0 = Range("E7:G9")
+    Set KeyCells1 = Range("E7")
+    Set KeyCells2 = Range("F7")
+    Set KeyCells3 = Range("G7")
+    Set KeyCells4 = Range("E8")
+    Set KeyCells5 = Range("F8")
+    Set KeyCells6 = Range("G8")
+    Set KeyCells7 = Range("E9")
+    Set KeyCells8 = Range("F9")
+    Set KeyCells9 = Range("G9")
+    
+    
+    If Not Application.Intersect(KeyCells0, Range(Target.Address)) Is Nothing Then
+        If Not Application.Intersect(KeyCells1, Range(Target.Address)) Is Nothing Then
+            If KeyCells1.Value = "X" Or KeyCells1.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+        
+        If Not Application.Intersect(KeyCells2, Range(Target.Address)) Is Nothing Then
+            If KeyCells2.Value = "X" Or KeyCells2.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+        
+        If Not Application.Intersect(KeyCells3, Range(Target.Address)) Is Nothing Then
+            If KeyCells3.Value = "X" Or KeyCells3.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+        
+        If Not Application.Intersect(KeyCells4, Range(Target.Address)) Is Nothing Then
+            If KeyCells4.Value = "X" Or KeyCells4.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+        
+        If Not Application.Intersect(KeyCells5, Range(Target.Address)) Is Nothing Then
+            If KeyCells5.Value = "X" Or KeyCells5.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+        
+        If Not Application.Intersect(KeyCells6, Range(Target.Address)) Is Nothing Then
+            If KeyCells6.Value = "X" Or KeyCells6.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+        
+        If Not Application.Intersect(KeyCells7, Range(Target.Address)) Is Nothing Then
+            If KeyCells7.Value = "X" Or KeyCells7.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+        
+        If Not Application.Intersect(KeyCells8, Range(Target.Address)) Is Nothing Then
+            If KeyCells8.Value = "X" Or KeyCells8.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+        
+        If Not Application.Intersect(KeyCells9, Range(Target.Address)) Is Nothing Then
+            If KeyCells9.Value = "X" Or KeyCells9.Value = "x" Then
+                If Range("A4").Value = "Fácil" Then
+                    Call Jogo_Velha_Facil
+                ElseIf Range("A4").Value = "Médio" Then
+                    Call Jogo_Velha_Medio
+                ElseIf Range("A4").Value = "Difícil" Then
+                    Call Jogo_Velha_Dificil
+                End If
+            End If
+        End If
+    End If
+End Sub
+
