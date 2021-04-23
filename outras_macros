@@ -1,0 +1,26 @@
+Sub Novo_Jogo()
+'
+' Limpa as marcações
+'
+
+'
+    Range("E7:G9").ClearContents
+
+End Sub
+
+
+Sub IA_Primeiro()
+'
+' Pede para a IA jogar primeiro
+'
+
+'
+    If Range("A4").Value = "Fácil" Then
+        Call Jogo_Velha_Facil
+    ElseIf Range("A4").Value = "Médio" Then
+        Call Jogo_Velha_Medio
+    ElseIf Range("A4").Value = "Difícil" Then
+        Call Jogo_Velha_Dificil
+    End If
+
+End Sub
