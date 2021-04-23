@@ -1,0 +1,383 @@
+Sub Jogo_Velha_Dificil()
+
+    Application.ScreenUpdating = False
+    
+    Dim mArvore(1 To 9, 0 To 8, 0 To 7, 0 To 6, 0 To 5, 0 To 4, 1 To 3) As Double 'Declara a árvore que registrará Minmax. Está limitada em  níveis (Difícil). O último elemento registra em 1 = resultado, em 2 = linha e em 3 = coluna
+    Dim vNivel As Integer 'Declara a variável que declarará a quantidade de nós de nível 1
+    Dim vDecisao(1 To 3) As Double 'Declara o vetor que registrará a decisão
+    Dim XA, YA, XB, YB, XC, YC, XD, YD, XE, YE, XF, YF As Double 'Variáveis de contagem e iteração
+    Dim A, B, C, D, E, F, X As Integer 'Variáveis de contagem e iteração
+    Dim vAleatorio As Integer 'Registra o valor aleatório para jogada inicial
+    
+    vNivel = Cells(106, 3).Value 'Variável que armazena a quantidade de estados possíveis para a decisão (primeiro nível)
+    
+    'Se o usuário venceu o jogo, exibe a mensagem de vitória e encerra
+    If Range("A129").Value = 1 Then
+        MsgBox ("!!!Parabéns!!! Você venceu o jogo!!!")
+        Exit Sub
+    End If
+    
+    'Se o jogador foi o último a marcar e a partida terminou empatada
+    If Range("B106") = 0 And Range("A129").Value = 0 Then
+        MsgBox ("Essa partida terminou empatada. Tente outra vez!")
+        Exit Sub
+    End If
+    
+    'Quando a IA é solicitada a jogar primeiro, calcula uma posição aleatória
+    If Range("B106").Value = 9 Then
+        Range("A212").Select
+        ActiveCell.FormulaR1C1 = "=RANDBETWEEN(1, 4)"
+        Selection.Copy
+        Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+            :=False, Transpose:=False
+        vAleatorio = Selection
+        
+        If vAleatorio = 1 Then
+            vDecisao(1) = 1
+            vDecisao(2) = 1
+        ElseIf vAleatorio = 2 Then
+            vDecisao(1) = 1
+            vDecisao(2) = 3
+        ElseIf vAleatorio = 3 Then
+            vDecisao(1) = 3
+            vDecisao(2) = 1
+        Else
+            vDecisao(1) = 3
+            vDecisao(2) = 3
+        End If
+        
+        Range("A212").ClearContents
+        Range("A1").Select
+        
+        Cells(vDecisao(1) + 6, vDecisao(2) + 4).Value = "O"
+        
+        Exit Sub
+    End If
+        
+        
+    A = 0
+    B = 0
+    C = 0
+    D = 0
+    E = 0
+    F = 0
+    
+    'Nível 1
+    A = 1
+    XA = 1
+    YA = 1
+    Do Until XA > 3
+        Do Until YA > 3
+            If Cells(115 + XA, YA).Value = 0 Then 'Se encontrou um estado vazio
+                Cells(115 + XA, YA).Value = 1 'Então registra 1
+                If Cells(129, 1).Value = 1 Or Range("B106").Value = 1 Then 'Se for encontrado resultado favorável no primeiro nível ou se não houver outra opção de seleção
+                    mArvore(A, 0, 0, 0, 0, 0, 1) = 1 'Registra o resultado MinMax na folha
+                    mArvore(A, 0, 0, 0, 0, 0, 2) = XA 'Registra a linha
+                    mArvore(A, 0, 0, 0, 0, 0, 3) = YA 'Registra a coluna
+                    Cells(115 + XA, YA).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                    Exit Do
+                Else
+                    'Nível 2
+                    B = 1
+                    XB = 1
+                    YB = 1
+                    Do Until XB > 3
+                        Do Until YB > 3
+                            If Cells(131 + XB, YB).Value = 0 Then 'Se encontrou um estado vazio
+                                Cells(131 + XB, YB).Value = -1 'Então registra -1
+                                If Cells(145, 1).Value = 1 Then 'Se houve vitória do adversário
+                                    mArvore(A, B, 0, 0, 0, 0, 1) = -1 'Registra o resultado MinMax na folha
+                                    mArvore(A, B, 0, 0, 0, 0, 2) = XB 'Registra a linha
+                                    mArvore(A, B, 0, 0, 0, 0, 3) = YB 'Registra a coluna
+                                    Cells(131 + XB, YB).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                    If mArvore(A, 0, 0, 0, 0, 0, 1) > -1 Then 'Se o resultado do nível anterior foi maior que o atual
+                                        mArvore(A, 0, 0, 0, 0, 0, 1) = -1 'Registra o resultado MinMax no nível anterior
+                                        mArvore(A, 0, 0, 0, 0, 0, 2) = XA 'Registra a linha
+                                        mArvore(A, 0, 0, 0, 0, 0, 3) = YA 'Registra a coluna
+                                    End If
+                                    Cells(115 + XA, YA).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada no nível anterior
+                                    Exit Do
+                                ElseIf Range("B106").Value = 2 Then 'Se não houver mais níveis
+                                    mArvore(A, B, 0, 0, 0, 0, 1) = 0 'Registra o resultado MinMax na folha
+                                    mArvore(A, B, 0, 0, 0, 0, 2) = XB 'Registra a linha
+                                    mArvore(A, B, 0, 0, 0, 0, 3) = YB 'Registra a coluna
+                                    Cells(131 + XB, YB).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                    If mArvore(A, 0, 0, 0, 0, 0, 1) = 0 Then 'Se o nível anterior for igual a 0
+                                        mArvore(A, 0, 0, 0, 0, 0, 1) = 0 'Registra o resultado MinMax no nível anterior
+                                        mArvore(A, 0, 0, 0, 0, 0, 2) = XA 'Registra a linha
+                                        mArvore(A, 0, 0, 0, 0, 0, 3) = YA 'Registra a coluna
+                                    End If
+                                    Cells(115 + XA, YA).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada no nível anterior
+                                    Exit Do
+                                Else
+                                    'Nível 3
+                                    C = 1
+                                    XC = 1
+                                    YC = 1
+                                    Do Until XC > 3
+                                        Do Until YC > 3
+                                            If Cells(147 + XC, YC).Value = 0 Then 'Se encontrou um estado vazio
+                                                Cells(147 + XC, YC).Value = 1 'Então registra 1
+                                                If Cells(161, 1).Value = 1 Then 'Se houve vitória
+                                                    mArvore(A, B, C, 0, 0, 0, 1) = 1 * 0.8 'Registra o resultado MinMax na folha (ponderador de 0.8 devido ao nível)
+                                                    mArvore(A, B, C, 0, 0, 0, 2) = XC 'Registra a linha
+                                                    mArvore(A, B, C, 0, 0, 0, 3) = YC 'Registra a coluna
+                                                    Cells(147 + XC, YC).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                                    If mArvore(A, B, 0, 0, 0, 0, 1) < 1 * 0.8 Then 'Se o nível anterior era menor que o resultado do nível atual
+                                                       mArvore(A, B, 0, 0, 0, 0, 1) = 1 * 0.8 'Registra o mesmo resultado no nível anterior
+                                                       mArvore(A, B, 0, 0, 0, 0, 2) = XB 'Registra a linha
+                                                       mArvore(A, B, 0, 0, 0, 0, 3) = YB 'Registra a coluna
+                                                    End If
+                                                    Exit Do
+                                                ElseIf Range("B106").Value = 3 Then 'Se não houver mais níveis
+                                                    mArvore(A, B, C, 0, 0, 0, 1) = 0 'Registra o resultado MinMax na folha
+                                                    mArvore(A, B, C, 0, 0, 0, 2) = XC 'Registra a linha
+                                                    mArvore(A, B, C, 0, 0, 0, 3) = YC 'Registra a coluna
+                                                    Cells(147 + XC, YC).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                                    If mArvore(A, B, 0, 0, 0, 0, 1) = 0 Then 'Se o nível anterior era igual a 0, registra 0
+                                                        mArvore(A, B, 0, 0, 0, 0, 1) = 0 'Registra o resultado MinMax no nível anterior
+                                                        mArvore(A, B, 0, 0, 0, 0, 2) = XB 'Registra a linha
+                                                        mArvore(A, B, 0, 0, 0, 0, 3) = YB 'Registra a coluna
+                                                        
+                                                    End If
+                                                    C = C + 1 'Registra próximo nível da árvore (Nível 3)
+                                                    Exit Do
+                                                Else
+                                                    'Nível 4
+                                                    D = 1
+                                                    XD = 1
+                                                    YD = 1
+                                                    Do Until XD > 3
+                                                        Do Until YD > 3
+                                                            If Cells(163 + XD, YD).Value = 0 Then 'Se encontrou um estado vazio
+                                                                Cells(163 + XD, YD).Value = -1 'Então registra -1
+                                                                If Cells(177, 1).Value = 1 Then 'Se houve vitória
+                                                                    mArvore(A, B, C, D, 0, 0, 1) = -1 * 0.8 'Registra o resultado MinMax na folha (ponderador de 0.8 devido ao nível)
+                                                                    mArvore(A, B, C, D, 0, 0, 2) = XD 'Registra a linha
+                                                                    mArvore(A, B, C, D, 0, 0, 3) = YD 'Registra a coluna
+                                                                    Cells(163 + XD, YD).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                                                    If mArvore(A, B, C, 0, 0, 0, 1) > -1 * 0.8 Then 'Se o resultado do nível anterior for maior que o nível atual
+                                                                        mArvore(A, B, C, 0, 0, 0, 1) = -1 * 0.8 'Registra o mesmo resultado no nível anterior
+                                                                        mArvore(A, B, C, 0, 0, 0, 2) = XC 'Registra a linha
+                                                                        mArvore(A, B, C, 0, 0, 0, 3) = YC 'Registra a coluna
+                                                                    End If
+                                                                    Exit Do
+                                                                ElseIf Range("B106").Value = 4 Then 'Se não houver mais níveis
+                                                                    mArvore(A, B, C, D, 0, 0, 1) = 0 'Registra o resultado MinMax na folha
+                                                                    mArvore(A, B, C, D, 0, 0, 2) = XD 'Registra a linha
+                                                                    mArvore(A, B, C, D, 0, 0, 3) = YD 'Registra a coluna
+                                                                    Cells(163 + XD, YD).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                                                    If mArvore(A, B, C, 0, 0, 0, 1) = 0 Then 'Se o nível anterior era = 1, registra 0
+                                                                        mArvore(A, B, C, 0, 0, 0, 1) = 0 'Registra o resultado MinMax no nível 3
+                                                                        mArvore(A, B, C, 0, 0, 0, 2) = XC 'Registra a linha
+                                                                        mArvore(A, B, C, 0, 0, 0, 3) = YC 'Registra a coluna
+                                                                        
+                                                                    End If
+                                                                    D = D + 1 'Registra próximo nível da árvore (Nível 4)
+                                                                    Exit Do
+                                                                Else
+                                                                    'Nível 5
+                                                                    E = 1
+                                                                    XE = 1
+                                                                    YE = 1
+                                                                    Do Until XE > 3
+                                                                        Do Until YE > 3
+                                                                            If Cells(179 + XE, YE).Value = 0 Then 'Se encontrou um estado vazio
+                                                                                Cells(179 + XE, YE).Value = 1 'Então registra 1
+                                                                                If Cells(193, 1).Value = 1 Then 'Se houve vitória
+                                                                                    mArvore(A, B, C, D, E, 0, 1) = 1 * 0.6 'Registra o resultado MinMax na folha (ponderador de 0.6 devido ao nível)
+                                                                                    mArvore(A, B, C, D, E, 0, 2) = XE 'Registra a linha
+                                                                                    mArvore(A, B, C, D, E, 0, 3) = YE 'Registra a coluna
+                                                                                    Cells(179 + XE, YE).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                                                                    If mArvore(A, B, C, D, 0, 0, 1) < 1 * 0.6 Then 'Se o resultado do nível anterior for menor que o nível atual
+                                                                                        mArvore(A, B, C, D, 0, 0, 1) = 1 * 0.6 'Registra o mesmo resultado no nível anterior
+                                                                                        mArvore(A, B, C, D, 0, 0, 2) = XD 'Registra a linha
+                                                                                        mArvore(A, B, C, D, 0, 0, 3) = YD 'Registra a coluna
+                                                                                    End If
+                                                                                    Exit Do
+                                                                                ElseIf Range("B106").Value = 5 Then 'Se não houver mais níveis
+                                                                                    mArvore(A, B, C, D, E, 0, 1) = 0 'Registra o resultado MinMax na folha
+                                                                                    mArvore(A, B, C, D, E, 0, 2) = XE 'Registra a linha
+                                                                                    mArvore(A, B, C, D, E, 0, 3) = YE 'Registra a coluna
+                                                                                    Cells(179 + XE, YE).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                                                                    If mArvore(A, B, C, D, 0, 0, 1) = 0 Then 'Se o nível anterior era = 1, registra 0
+                                                                                        mArvore(A, B, C, D, 0, 0, 1) = 0 'Registra o resultado MinMax no nível 3
+                                                                                        mArvore(A, B, C, D, 0, 0, 2) = XD 'Registra a linha
+                                                                                        mArvore(A, B, C, D, 0, 0, 3) = YD 'Registra a coluna
+                                                                                        
+                                                                                    End If
+                                                                                    E = E + 1 'Registra próximo nível da árvore (Nível 5)
+                                                                                    Exit Do
+                                                                                Else
+                                                                                    'Nível 6
+                                                                                    F = 1
+                                                                                    XF = 1
+                                                                                    YF = 1
+                                                                                    Do Until XF > 3
+                                                                                        Do Until YF > 3
+                                                                                            If Cells(195 + XF, YF).Value = 0 Then 'Se encontrou um estado vazio
+                                                                                                Cells(195 + XF, YF).Value = -1 'Então registra 1
+                                                                                                If Cells(209, 1).Value = 1 Then 'Se houve vitória
+                                                                                                    mArvore(A, B, C, D, E, F, 1) = -1 * 0.6 'Registra o resultado MinMax na folha (ponderador de 0.6 devido ao nível)
+                                                                                                    mArvore(A, B, C, D, E, F, 2) = XF 'Registra a linha
+                                                                                                    mArvore(A, B, C, D, E, F, 3) = YF 'Registra a coluna
+                                                                                                    Cells(195 + XF, YF).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                                                                                    If mArvore(A, B, C, D, E, 0, 1) > -1 * 0.6 Then 'Se o resultado do nível anterior for menor que o nível atual
+                                                                                                        mArvore(A, B, C, D, E, 0, 1) = -1 * 0.6 'Registra o mesmo resultado no nível anterior
+                                                                                                        mArvore(A, B, C, D, E, 0, 2) = XE 'Registra a linha
+                                                                                                        mArvore(A, B, C, D, E, 0, 3) = YE 'Registra a coluna
+                                                                                                    End If
+                                                                                                    Exit Do
+                                                                                                Else
+                                                                                                    mArvore(A, B, C, D, E, F, 1) = 0 'Registra o resultado MinMax na folha
+                                                                                                    mArvore(A, B, C, D, E, F, 2) = XF 'Registra a linha
+                                                                                                    mArvore(A, B, C, D, E, F, 3) = YF 'Registra a coluna
+                                                                                                    Cells(195 + XF, YF).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada
+                                                                                                    If mArvore(A, B, C, D, E, 0, 1) = 0 Then 'Se o nível anterior era igual a 0, registra 0
+                                                                                                        mArvore(A, B, C, D, E, 0, 1) = 0 'Registra o resultado MinMax no nível anterior
+                                                                                                        mArvore(A, B, C, D, E, 0, 2) = XE 'Registra a linha
+                                                                                                        mArvore(A, B, C, D, E, 0, 3) = YE 'Registra a coluna
+                                                                                                        
+                                                                                                    End If
+                                                                                                End If
+                                                                                                F = F + 1 'Registra próximo nível da árvore (Nível 6)
+                                                                                            End If
+                                                                                            YF = YF + 1
+                                                                                        Loop
+                                                                                        If (mArvore(A, B, C, D, E, F, 1) = -1 * 0.6 And mArvore(A, B, C, D, E, 0, 1) = -1 * 0.6) Then 'Se o ramo atual e o anterior (max) forem = -1 *0.6, pula para o próximo nó do nível anterior
+                                                                                            Exit Do
+                                                                                        End If
+                                                                                        XF = XF + 1
+                                                                                        YF = 1
+                                                                                    Loop
+                                                                                    Cells(179 + XE, YE).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada no nível 5
+                                                                                    For X = 1 To Range("C111").Value 'Verifica cada resultado do nível 6 para registrar o maior valor no nível 5
+                                                                                        If (mArvore(A, B, C, D, E, X, 1) < mArvore(A, B, C, D, E, 0, 1) Or mArvore(A, B, C, D, E, 0, 2) = 0) Then
+                                                                                            mArvore(A, B, C, D, E, 0, 1) = mArvore(A, B, C, D, E, X, 1)
+                                                                                            mArvore(A, B, C, D, E, 0, 2) = XD
+                                                                                            mArvore(A, B, C, D, E, 0, 3) = YD
+                                                                                        End If
+                                                                                    Next X
+                                                                                    E = E + 1
+                                                                                End If
+                                                                            End If
+                                                                            YE = YE + 1
+                                                                        Loop
+                                                                        If (mArvore(A, B, C, D, E, 0, 1) = 1 * 0.6 And mArvore(A, B, C, D, 0, 0, 1) = 1 * 0.6) Or (mArvore(A, B, C, D, E, 0, 1) = 0 And mArvore(A, B, C, D, E, 0, 2) <> 0 And Range("B106").Value = 5) Then 'Se o ramo atual e o anterior (max) forem = 1 *0.6, pula para o próximo nó do nível anterior
+                                                                            Exit Do
+                                                                        End If
+                                                                        XE = XE + 1
+                                                                        YE = 1
+                                                                    Loop
+                                                                    Cells(163 + XD, YD).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada no nível 4
+                                                                    For X = 1 To Range("C110").Value 'Verifica cada resultado do nível 5 para registrar o maior valor no nível 4
+                                                                        If (mArvore(A, B, C, D, X, 0, 1) > mArvore(A, B, C, D, 0, 0, 1) Or mArvore(A, B, C, D, 0, 0, 2) = 0) Then
+                                                                            mArvore(A, B, C, D, 0, 0, 1) = mArvore(A, B, C, D, X, 0, 1)
+                                                                            mArvore(A, B, C, D, 0, 0, 2) = XD
+                                                                            mArvore(A, B, C, D, 0, 0, 3) = YD
+                                                                        End If
+                                                                    Next X
+                                                                    D = D + 1
+                                                                End If
+                                                            End If
+                                                            YD = YD + 1
+                                                        Loop
+                                                        If (mArvore(A, B, C, D, 0, 0, 1) = -1 * 0.8 And mArvore(A, B, C, 0, 0, 0, 1) = -1 * 0.8) Or (mArvore(A, B, C, D, 0, 0, 1) = 0 And mArvore(A, B, C, D, 0, 0, 2) <> 0 And Range("B106").Value = 4) Then
+                                                            Exit Do
+                                                        End If
+                                                        XD = XD + 1
+                                                        YD = 1
+                                                    Loop
+                                                    Cells(147 + XC, YC).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada no nível 3
+                                                    For X = 1 To Range("C109").Value 'Verifica cada resultado do nível 4 para registrar o menor valor no nível 3
+                                                        If (mArvore(A, B, C, X, 0, 0, 1) < mArvore(A, B, C, 0, 0, 0, 1) Or mArvore(A, B, C, 0, 0, 0, 2) = 0) Then
+                                                            mArvore(A, B, C, 0, 0, 0, 1) = mArvore(A, B, C, X, 0, 0, 1)
+                                                            mArvore(A, B, C, 0, 0, 0, 2) = XC
+                                                            mArvore(A, B, C, 0, 0, 0, 3) = YC
+                                                        End If
+                                                    Next X
+                                                    C = C + 1
+                                                End If
+                                            End If
+                                            YC = YC + 1
+                                        Loop
+                                        If (mArvore(A, B, C, 0, 0, 0, 1) = 1 * 0.8 And mArvore(A, B, 0, 0, 0, 0, 1) = 1 * 0.8) Or (mArvore(A, B, C, 0, 0, 0, 1) = 0 And mArvore(A, B, C, 0, 0, 0, 2) <> 0 And Range("B106").Value = 3) Then
+                                            Exit Do
+                                        End If
+                                        XC = XC + 1
+                                        YC = 1
+                                    Loop
+                                    Cells(131 + XB, YB).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada no nível anterior
+                                    For X = 1 To Range("C108").Value 'Verifica cada resultado do nível 3 para registrar o maior valor no nível 2
+                                        If (mArvore(A, B, X, 0, 0, 0, 1) > mArvore(A, B, 0, 0, 0, 0, 1) Or mArvore(A, B, 0, 0, 0, 0, 2) = 0) Then
+                                            mArvore(A, B, 0, 0, 0, 0, 1) = mArvore(A, B, X, 0, 0, 0, 1)
+                                            mArvore(A, B, 0, 0, 0, 0, 2) = XB
+                                            mArvore(A, B, 0, 0, 0, 0, 3) = YB
+                                        End If
+                                    Next X
+                                    B = B + 1
+                                End If
+                            End If
+                            YB = YB + 1
+                        Loop
+                        If (mArvore(A, B, 0, 0, 0, 0, 1) = -1 And mArvore(A, 0, 0, 0, 0, 0, 1) = -1) Or (mArvore(A, B, 0, 0, 0, 0, 1) = 0 And mArvore(A, B, 0, 0, 0, 0, 2) <> 0 And Range("B106").Value = 2) Then
+                            Exit Do
+                        End If
+                        XB = XB + 1
+                        YB = 1
+                    Loop
+                    Cells(115 + XA, YA).FormulaR1C1 = "=R[-16]C" 'Retorna a fórmula à célula alterada no nível anterior
+                    For X = 1 To Range("C107").Value 'Verifica cada resultado do nível 2 para registrar o menor valor no nível 1
+                        If (mArvore(A, X, 0, 0, 0, 0, 1) < mArvore(A, 0, 0, 0, 0, 0, 1) Or mArvore(A, 0, 0, 0, 0, 0, 2) = 0) Then
+                            mArvore(A, 0, 0, 0, 0, 0, 1) = mArvore(A, X, 0, 0, 0, 0, 1)
+                            mArvore(A, 0, 0, 0, 0, 0, 2) = XA
+                            mArvore(A, 0, 0, 0, 0, 0, 3) = YA
+                        End If
+                    Next X
+                    A = A + 1 'Registra próximo nível da árvore (Nível 1)
+                End If
+            End If
+        YA = YA + 1
+        Loop
+        If mArvore(A, 0, 0, 0, 0, 0, 1) = 1 Then
+            Exit Do
+        End If
+        XA = XA + 1
+        YA = 1
+    Loop
+                                    
+                                
+    'Seleção da decisão a ser tomada
+    
+    vDecisao(3) = 0 'Controlador do valor da decisão
+    vDecisao(1) = 0 'Linha da decisão
+    vDecisao(2) = 0 'Coluna da decisão
+    
+    'Registra o resultado que maximiza o resultado como decisão
+    For X = 1 To vNivel
+        If X = 1 Then
+            vDecisao(3) = mArvore(X, 0, 0, 0, 0, 0, 1)
+            vDecisao(1) = mArvore(X, 0, 0, 0, 0, 0, 2)
+            vDecisao(2) = mArvore(X, 0, 0, 0, 0, 0, 3)
+        ElseIf vDecisao(3) < mArvore(X, 0, 0, 0, 0, 0, 1) Then
+            vDecisao(3) = mArvore(X, 0, 0, 0, 0, 0, 1)
+            vDecisao(1) = mArvore(X, 0, 0, 0, 0, 0, 2)
+            vDecisao(2) = mArvore(X, 0, 0, 0, 0, 0, 3)
+        End If
+    Next X
+    
+    Cells(vDecisao(1) + 6, vDecisao(2) + 4).Value = "O"
+    
+    If Range("A129").Value = 1 Then
+        MsgBox ("Não foi dessa vez! Você foi derrotado pela IA.")
+    End If
+    
+    If Range("B106") = 0 And Range("A129").Value = 0 Then
+        MsgBox ("Essa partida terminou empatada. Tente outra vez!")
+    End If
+    
+End Sub
+
+
+
+
