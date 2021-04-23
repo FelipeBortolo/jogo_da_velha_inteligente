@@ -1,0 +1,359 @@
+Private Sub Workbook_Open()
+
+    Application.ScreenUpdating = False
+    
+    MsgBox ("Olá! Seja bem vindo(a) ao Jogo da Velha com Excel Inteligente! Vamos jogar uma partida?")
+    MsgBox ("Neste jogo, você sempre marca com o ""X"". Seu adversário IA será sempre o ""O"".")
+    MsgBox ("Para começar a jogar, basta preencher o tabuleiro com ""X"". Para limpar e começar uma nova partida, clique em ""Novo Jogo"". Se quiser que a IA jogue primeiro, clique em ""IA Jogar Primeiro"".")
+    
+    
+    
+    ' Inicializa as fórmulas que serão usadas na planilha
+    '
+
+    '
+    Range("A100").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("B100").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("C100").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("D100").Select
+    ActiveCell.FormulaR1C1 = "Estado atual"
+    Range("A101").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("B101").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("C101").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("A102").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("B102").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("C102").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-93]C[4]=""O"",1,IF(R[-93]C[4]=""X"",-1,0))"
+    Range("A104").Select
+    ActiveCell.FormulaR1C1 = "=COUNTIFS(R100C1:R102C3,0)"
+    Range("B104").Select
+    ActiveCell.FormulaR1C1 = "Quant. 0"
+    Range("A106").Select
+    ActiveCell.FormulaR1C1 = "=R[-2]C"
+    Range("B106").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R106C1:RC[-1])"
+    Range("C106").Select
+    ActiveCell.FormulaR1C1 = "=RC[-2]"
+    Range("D106").Select
+    ActiveCell.FormulaR1C1 = "1"
+    Range("E106").Select
+    ActiveCell.FormulaR1C1 = "Max"
+    Range("F106").Select
+    ActiveCell.FormulaR1C1 = "Progressão geométrica"
+    Range("A107").Select
+    ActiveCell.FormulaR1C1 = "=R[-1]C*RC[2]"
+    Range("B107").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R106C1:RC[-1])"
+    Range("C107").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-1]C-1<0,0,R[-1]C-1)"
+    Range("D107").Select
+    ActiveCell.FormulaR1C1 = "2"
+    Range("E107").Select
+    ActiveCell.FormulaR1C1 = "Min"
+    Range("A108").Select
+    ActiveCell.FormulaR1C1 = "=R[-1]C*RC[2]"
+    Range("B108").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R106C1:RC[-1])"
+    Range("C108").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-1]C-1<0,0,R[-1]C-1)"
+    Range("D108").Select
+    ActiveCell.FormulaR1C1 = "3"
+    Range("E108").Select
+    ActiveCell.FormulaR1C1 = "Max"
+    Range("A109").Select
+    ActiveCell.FormulaR1C1 = "=R[-1]C*RC[2]"
+    Range("B109").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R106C1:RC[-1])"
+    Range("C109").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-1]C-1<0,0,R[-1]C-1)"
+    Range("D109").Select
+    ActiveCell.FormulaR1C1 = "4"
+    Range("E109").Select
+    ActiveCell.FormulaR1C1 = "Min"
+    Range("A110").Select
+    ActiveCell.FormulaR1C1 = "=R[-1]C*RC[2]"
+    Range("B110").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R106C1:RC[-1])"
+    Range("C110").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-1]C-1<0,0,R[-1]C-1)"
+    Range("D110").Select
+    ActiveCell.FormulaR1C1 = "5"
+    Range("E110").Select
+    ActiveCell.FormulaR1C1 = "Max"
+    Range("A111").Select
+    ActiveCell.FormulaR1C1 = "=R[-1]C*RC[2]"
+    Range("B111").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R106C1:RC[-1])"
+    Range("C111").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-1]C-1<0,0,R[-1]C-1)"
+    Range("D111").Select
+    ActiveCell.FormulaR1C1 = "6"
+    Range("E111").Select
+    ActiveCell.FormulaR1C1 = "Min"
+    Range("A112").Select
+    ActiveCell.FormulaR1C1 = "=R[-1]C*RC[2]"
+    Range("B112").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R106C1:RC[-1])"
+    Range("C112").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-1]C-1<0,0,R[-1]C-1)"
+    Range("D112").Select
+    ActiveCell.FormulaR1C1 = "7"
+    Range("E112").Select
+    ActiveCell.FormulaR1C1 = "Max"
+    Range("A113").Select
+    ActiveCell.FormulaR1C1 = "=R[-1]C*RC[2]"
+    Range("B113").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R106C1:RC[-1])"
+    Range("C113").Select
+    ActiveCell.FormulaR1C1 = "=IF(R[-1]C-1<0,0,R[-1]C-1)"
+    Range("D113").Select
+    ActiveCell.FormulaR1C1 = "8"
+    Range("E113").Select
+    ActiveCell.FormulaR1C1 = "Min"
+    Range("A116").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B116").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C116").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("D116").Select
+    ActiveCell.FormulaR1C1 = "Espaço de possibilidades n1"
+    Range("A117").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B117").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C117").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A118").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B118").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C118").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A120").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A121").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A122").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A123").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-7]C:R[-5]C)"
+    Range("A124").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-8]C[1]:R[-6]C[1])"
+    Range("A125").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C[2]:R[-7]C[2])"
+    Range("A126").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-10]C,R[-9]C[1],R[-8]C[2])"
+    Range("A127").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C,R[-10]C[1],R[-11]C[2])"
+    Range("A129").Select
+    ActiveCell.FormulaR1C1 = _
+        "=IF(OR(MAX(R[-9]C:R[-2]C)=3,MIN(R[-9]C:R[-2]C)=-3),1,0)"
+    Range("A132").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B132").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C132").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("D132").Select
+    ActiveCell.FormulaR1C1 = "Espaço de possibilidades n2"
+    Range("A133").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B133").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C133").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A134").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B134").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C134").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A136").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A137").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A138").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A139").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-7]C:R[-5]C)"
+    Range("A140").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-8]C[1]:R[-6]C[1])"
+    Range("A141").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C[2]:R[-7]C[2])"
+    Range("A142").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-10]C,R[-9]C[1],R[-8]C[2])"
+    Range("A143").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C,R[-10]C[1],R[-11]C[2])"
+    Range("A145").Select
+    ActiveCell.FormulaR1C1 = _
+        "=IF(OR(MAX(R[-9]C:R[-2]C)=3,MIN(R[-9]C:R[-2]C)=-3),1,0)"
+    Range("A148").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B148").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C148").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("D148").Select
+    ActiveCell.FormulaR1C1 = "Espaço de possibilidades n3"
+    Range("A149").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B149").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C149").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A150").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B150").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C150").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A152").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A153").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A154").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A155").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-7]C:R[-5]C)"
+    Range("A156").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-8]C[1]:R[-6]C[1])"
+    Range("A157").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C[2]:R[-7]C[2])"
+    Range("A158").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-10]C,R[-9]C[1],R[-8]C[2])"
+    Range("A159").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C,R[-10]C[1],R[-11]C[2])"
+    Range("A161").Select
+    ActiveCell.FormulaR1C1 = _
+        "=IF(OR(MAX(R[-9]C:R[-2]C)=3,MIN(R[-9]C:R[-2]C)=-3),1,0)"
+    Range("A164").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B164").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C164").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("D164").Select
+    ActiveCell.FormulaR1C1 = "Espaço de possibilidades n4"
+    Range("A165").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B165").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C165").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("D165").Select
+    ActiveCell.FormulaR1C1 = ""
+    Range("A166").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B166").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C166").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A168").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A169").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A170").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A171").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-7]C:R[-5]C)"
+    Range("A172").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-8]C[1]:R[-6]C[1])"
+    Range("A173").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C[2]:R[-7]C[2])"
+    Range("A174").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-10]C,R[-9]C[1],R[-8]C[2])"
+    Range("A175").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C,R[-10]C[1],R[-11]C[2])"
+    Range("A177").Select
+    ActiveCell.FormulaR1C1 = _
+        "=IF(OR(MAX(R[-9]C:R[-2]C)=3,MIN(R[-9]C:R[-2]C)=-3),1,0)"
+    Range("A180").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B180").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C180").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("D180").Select
+    ActiveCell.FormulaR1C1 = "Espaço de possibilidades n5"
+    Range("A181").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B181").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C181").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A182").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B182").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C182").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A184").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A185").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A186").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A187").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-7]C:R[-5]C)"
+    Range("A188").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-8]C[1]:R[-6]C[1])"
+    Range("A189").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C[2]:R[-7]C[2])"
+    Range("A190").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-10]C,R[-9]C[1],R[-8]C[2])"
+    Range("A191").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C,R[-10]C[1],R[-11]C[2])"
+    Range("A193").Select
+    ActiveCell.FormulaR1C1 = _
+        "=IF(OR(MAX(R[-9]C:R[-2]C)=3,MIN(R[-9]C:R[-2]C)=-3),1,0)"
+    Range("A196").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B196").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C196").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("D196").Select
+    ActiveCell.FormulaR1C1 = "Espaço de possibilidades n6"
+    Range("A197").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B197").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C197").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A198").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("B198").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("C198").Select
+    ActiveCell.FormulaR1C1 = "=R[-16]C"
+    Range("A200").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A201").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A202").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-4]C:R[-4]C[2])"
+    Range("A203").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-7]C:R[-5]C)"
+    Range("A204").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-8]C[1]:R[-6]C[1])"
+    Range("A205").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C[2]:R[-7]C[2])"
+    Range("A206").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-10]C,R[-9]C[1],R[-8]C[2])"
+    Range("A207").Select
+    ActiveCell.FormulaR1C1 = "=SUM(R[-9]C,R[-10]C[1],R[-11]C[2])"
+    Range("A209").Select
+    ActiveCell.FormulaR1C1 = _
+        "=IF(OR(MAX(R[-9]C:R[-2]C)=3,MIN(R[-9]C:R[-2]C)=-3),1,0)"
+    Range("A1").Select
+    
+End Sub
